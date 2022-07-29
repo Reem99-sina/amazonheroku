@@ -26,10 +26,11 @@ userRouter.post('/signup', (async (req, res) => {
         console.log(searchuser)
         res.status(404).json({ error: "error existed email", searchuser })
     } else {
+        const newPassword = await bcrypt.hash(req.body.password, Number(process.env.saltRound), { expiresIn: "2h" })
         const newuser = new usersmodel({
             userName: req.body.userName,
             email: req.body.email,
-            password: await bcrypt.hash(req.body.password, Number(process.env.saltRound), { expiresIn: "24h" })
+            password: newPassword
         })
         const user = await newuser.save()
         console.log(user)
