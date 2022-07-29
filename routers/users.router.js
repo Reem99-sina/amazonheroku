@@ -29,7 +29,7 @@ userRouter.post('/signup', (async (req, res) => {
         const newuser = new usersmodel({
             userName: req.body.userName,
             email: req.body.email,
-            password: bcrypt.hashSync(req.body.password, Number(process.env.saltRound), { expiresIn: "24h" })
+            password: await bcrypt.hash(req.body.password, Number(process.env.saltRound), { expiresIn: "24h" })
         })
         const user = await newuser.save()
         console.log(user)
