@@ -11,7 +11,7 @@ const app = express()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.get("/api/keys/paypal", (req, res) => {
-    res.send(process.env.PAYPAL_CLIENT_ID||"")
+    res.send(process.env.PAYPAL_CLIENT_ID || "")
 })
 app.use("/api/products", productRouter)
 app.use("/api/product", userrouter)
@@ -20,6 +20,6 @@ app.use("/api/orders", orderRouter)
 
 app.use((err, req, res, next) => { res.status(500).json({ message: err.message }) })
 mongoose.connect(process.env.MONGODB_URL).then(() => { console.log('connect done') }).catch((error) => { console.log(error) })
-app.listen("4300", () => {
+app.listen(4300, () => {
     console.log("done")
 })
