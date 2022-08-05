@@ -4,9 +4,7 @@ import { isAuth } from '../Middleware/auth.js'
 import orderModel from '../models/order.model.js'
 const orderRouter = express.Router()
 orderRouter.post('/', isAuth, expressAsyncHandler(async (req, res) => {
-    // console.log(req.body.orderItems.map((x) => x))
-    console.log(req.body.orderItems.map((x) => x))
-    console.log(req.body.orderItems.map((x) => ({ ...x, product: x._id })))
+    // console.log
 
     const Neworder = new orderModel({
         orderItems: req.body.orderItems.map((x) => ({ ...x, product: x._id })),
@@ -19,8 +17,14 @@ orderRouter.post('/', isAuth, expressAsyncHandler(async (req, res) => {
         user: req.user.id
     })
     const order = await Neworder.save()
+    if (order) {
+        res.status(201).send({ message: "New order Created", order })
 
-    res.status(201).send({ message: "New order Created", order })
+    } else {
+        res.status(401).send({ message: "no order add " })
+
+    }
+
 }))
 orderRouter.get('/mine', isAuth, expressAsyncHandler(async (req, res) => {
     const orders = await orderModel.find({ user: req.user.id })
