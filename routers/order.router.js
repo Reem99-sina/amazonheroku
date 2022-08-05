@@ -5,6 +5,8 @@ import orderModel from '../models/order.model.js'
 const orderRouter = express.Router()
 orderRouter.post('/', isAuth, expressAsyncHandler(async (req, res) => {
     // console.log(req.body.orderItems.map((x) => x))
+    console.log(req.body.orderItems.map((x) => x))
+
     const Neworder = new orderModel({
         orderItems: req.body.orderItems.map((x) => ({ ...x, product: x._id })),
         shippingAddress: req.body.shippingAddress,
@@ -16,17 +18,14 @@ orderRouter.post('/', isAuth, expressAsyncHandler(async (req, res) => {
         user: req.user.id
     })
     const order = await Neworder.save()
-    console.log(order)
     res.status(201).send({ message: "New order Created", order })
 }))
 orderRouter.get('/mine', isAuth, expressAsyncHandler(async (req, res) => {
     const orders = await orderModel.find({ user: req.user.id })
     if (orders) {
         res.status(201).send({ message: "New order Created", orders })
-
     } else {
         res.status(401).send({ message: "no order found" })
-
     }
 }))
 orderRouter.get('/:id', isAuth, expressAsyncHandler(async (req, res) => {
