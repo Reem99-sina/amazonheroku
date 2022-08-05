@@ -6,6 +6,7 @@ const orderRouter = express.Router()
 orderRouter.post('/', isAuth, expressAsyncHandler(async (req, res) => {
     // console.log(req.body.orderItems.map((x) => x))
     console.log(req.body.orderItems.map((x) => x))
+    console.log(req.body.orderItems.map((x) => ({ ...x, product: x._id })))
 
     const Neworder = new orderModel({
         orderItems: req.body.orderItems.map((x) => ({ ...x, product: x._id })),
@@ -18,6 +19,7 @@ orderRouter.post('/', isAuth, expressAsyncHandler(async (req, res) => {
         user: req.user.id
     })
     const order = await Neworder.save()
+
     res.status(201).send({ message: "New order Created", order })
 }))
 orderRouter.get('/mine', isAuth, expressAsyncHandler(async (req, res) => {
