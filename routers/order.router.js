@@ -4,8 +4,8 @@ import { isAuth } from '../Middleware/auth.js'
 import orderModel from '../models/order.model.js'
 const orderRouter = express.Router()
 orderRouter.post('/', isAuth, expressAsyncHandler(async (req, res) => {
-    console.log(JSON.parse(req.body.orderItems))
-    const resultArray = req.body.orderItems.map((x) => ({ ...x, product: x._id }))
+    console.log((req.body.orderItems))
+    const resultArray = JSON.parse(req.body.orderItems).map((x) => ({ ...x, product: x._id }))
     const Neworder = new orderModel({
         orderItems: resultArray,
         shippingAddress: req.body.shippingAddress,
