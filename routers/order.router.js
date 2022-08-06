@@ -4,26 +4,29 @@ import { isAuth } from '../Middleware/auth.js'
 import orderModel from '../models/order.model.js'
 const orderRouter = express.Router()
 orderRouter.post('/', isAuth, expressAsyncHandler(async (req, res) => {
-    console.log((req.body.orderItems))
-    const Neworder = new orderModel({
-        orderItems: req.body.orderItems.map((x) => ({ ...x, product: x._id })),
-        shippingAddress: req.body.shippingAddress,
-        paymentMethod: req.body.paymentMethod,
-        itemsPrice: req.body.itemsPrice,
-        shippingPrice: req.body.shippingPrice,
-        taxPrice: req.body.taxPrice,
-        totalPrice: req.body.totalPrice,
-        user: req.user.id
-    })
-    const order = await Neworder.save()
-    if (order) {
-        res.status(201).send({ message: "New order Created", order })
-
-    } else {
-        res.status(401).send({ message: "no order add " })
+    try {
+        console.log((req.body.orderItems))
+        const Neworder = new orderModel({
+            orderItems: req.body.orderItems.map((x) => ({ ...x, product: x._id })),
+            shippingAddress: req.body.shippingAddress,
+            paymentMethod: req.body.paymentMethod,
+            itemsPrice: req.body.itemsPrice,
+            shippingPrice: req.body.shippingPrice,
+            taxPrice: req.body.taxPrice,
+            totalPrice: req.body.totalPrice,
+            user: req.user.id
+        })
+        const order = await Neworder.save()
+        if (order) {
+            res.status(201).send({ message: "New order Created", order })
+        } else {
+            res.status(401).send({ message: "no order add " })
+        }
+    }
+    catch (error) {
+        res.status(401).send({ message: "catch error ", error })
 
     }
-
 }))
 orderRouter.get('/mine', isAuth, expressAsyncHandler(async (req, res) => {
     const orders = await orderModel.find({ user: req.user.id })
