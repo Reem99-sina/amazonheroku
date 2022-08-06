@@ -5,7 +5,7 @@ import orderModel from '../models/order.model.js'
 const orderRouter = express.Router()
 orderRouter.post('/', isAuth, expressAsyncHandler(async (req, res) => {
     try {
-        console.log((req.body.orderItems))
+        console.log(req.user.id)
         const Neworder = new orderModel({
             orderItems: req.body.orderItems.map((x) => ({ ...x, product: x._id })),
             shippingAddress: req.body.shippingAddress,
