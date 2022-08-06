@@ -17,6 +17,7 @@ orderRouter.post('/', isAuth, expressAsyncHandler(async (req, res) => {
         user: req.user.id
     })
     const order = await Neworder.save()
+    console.log(order)
     if (order) {
         res.status(201).send({ message: "New order Created", order })
     } else {
