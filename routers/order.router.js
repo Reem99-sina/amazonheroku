@@ -20,7 +20,7 @@ orderRouter.post(
             });
             const order = await newOrder.save();
             if (order) {
-                res.status(201).send({ message: 'New Order Created', order });
+                res.status(201).send({ order });
             } else {
                 res.status(401).send({ message: 'error order', error: data.error });
             }

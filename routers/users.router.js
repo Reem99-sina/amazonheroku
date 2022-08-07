@@ -11,7 +11,6 @@ userRouter.post('/signin', expressAsyncHandler(async (req, res) => {
         const match = await bcrypt.compare(req.body.password, user.password)
         if (match) {
             const userToken = jwt.sign({ id: user._id }, process.env.jwtTokn, { expiresIn: "24h" })
-            console.log(userToken)
             res.json({ user, userToken })
         } else {
             res.status(401).json({ message: "invalid email or password" })
