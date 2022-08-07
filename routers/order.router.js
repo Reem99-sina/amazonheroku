@@ -2,33 +2,26 @@ import express from 'express'
 import expressAsyncHandler from 'express-async-handler'
 import { isAuth } from '../Middleware/auth.js'
 import orderModel from '../models/order.model.js'
-const orderRouter = express.Router()
-orderRouter.post('/', isAuth, expressAsyncHandler(async (req, res) => {
-    // try {
-    console.log(req.body)
-    const Neworder = await orderModel.create({
-        orderItems: req.body.orderItems.map((x) => ({ ...x, product: x._id })),
-        shippingAddress: req.body.shippingAddress,
-        paymentMethod: req.body.paymentMethod,
-        itemsPrice: req.body.itemsPrice,
-        shippingPrice: req.body.shippingPrice,
-        taxPrice: req.body.taxPrice,
-        totalPrice: req.body.totalPrice,
-        user: req.user.id
-    })
 
-    console.log(Neworder)
-    if (Neworder) {
-        res.status(201).send({ message: "New order Created", order })
-    } else {
-        res.status(401).send({ message: "no order add " })
-    }
-}
-    // catch (error) {
-    //     res.status(401).send({ message: "catch error ", error })
+const orderRouter = express.Router();
+orderRouter.post(
+    '/',
+    isAuth,
+    expressAsyncHandler(async (req, res) => {
+        const newOrder = new orderModel({
+            orderItems: req.body.orderItems.map((x) => ({ ...x, product: x._id })),
+            shippingAddress: req.body.shippingAddress,
+            paymentMethod: req.body.paymentMethod,
+            itemsPrice: req.body.itemsPrice,
+            shippingPrice: req.body.shippingPrice,
+            taxPrice: req.body.taxPrice,
+            totalPrice: req.body.totalPrice,
+            user: req.user._id,
+        });
 
-    // }
-))
+        const order = await newOrder.save();
+        res.status(201).send({ message: 'New Order Created', order });
+    }))
 orderRouter.get('/mine', isAuth, expressAsyncHandler(async (req, res) => {
     const orders = await orderModel.find({ user: req.user.id })
     if (orders) {
@@ -37,16 +30,18 @@ orderRouter.get('/mine', isAuth, expressAsyncHandler(async (req, res) => {
         res.status(401).send({ message: "no order found" })
     }
 }))
-orderRouter.get('/:id', isAuth, expressAsyncHandler(async (req, res) => {
-    const order = await orderModel.findById(req.params.id)
-    if (order) {
-        res.status(201).send({ message: "New order Created", order })
-
-    } else {
-        res.status(401).send({ message: "no order found" })
-
-    }
-}))
+orderRouter.get(
+    '/:id',
+    isAuth,
+    expressAsyncHandler(async (req, res) => {
+        const order = await orderModel.findById(req.params.id);
+        if (order) {
+            res.send(order);
+        } else {
+            res.status(404).send({ message: 'Order Not Found' });
+        }
+    })
+);
 orderRouter.put('/:id/pay', isAuth, expressAsyncHandler(async (req, res) => {
     const order = await orderModel.findById(req.params.id)
     if (order) {
