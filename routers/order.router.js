@@ -6,7 +6,7 @@ const orderRouter = express.Router();
 orderRouter.post(
     '/create',
     isAuth,
-    expressAsyncHandler(async (req, res) => {
+    async (req, res) => {
         try {
             const newOrder = new orderModel({
                 orderItems: req.body.orderItems.map((x) => ({ ...x, product: x._id })),
@@ -28,7 +28,7 @@ orderRouter.post(
             res.status(500).send({ message: 'error catch', error });
 
         }
-    }))
+    })
 orderRouter.get('/mine', isAuth, expressAsyncHandler(async (req, res) => {
     const orders = await orderModel.find({ user: req.user._id })
     if (orders) {
