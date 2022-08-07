@@ -7,21 +7,26 @@ orderRouter.post(
     '/',
     isAuth,
     expressAsyncHandler(async (req, res) => {
-        const newOrder = new orderModel({
-            orderItems: req.body.orderItems.map((x) => ({ ...x, product: x._id })),
-            shippingAddress: req.body.shippingAddress,
-            paymentMethod: req.body.paymentMethod,
-            itemsPrice: req.body.itemsPrice,
-            shippingPrice: req.body.shippingPrice,
-            taxPrice: req.body.taxPrice,
-            totalPrice: req.body.totalPrice,
-            user: req.user._id,
-        });
-        const order = await newOrder.save();
-        if (order) {
-            res.status(201).send({ message: 'New Order Created', order });
-        } else {
-            res.status(401).send({ message: 'error order' });
+        try {
+            const newOrder = new orderModel({
+                orderItems: req.body.orderItems.map((x) => ({ ...x, product: x._id })),
+                shippingAddress: req.body.shippingAddress,
+                paymentMethod: req.body.paymentMethod,
+                itemsPrice: req.body.itemsPrice,
+                shippingPrice: req.body.shippingPrice,
+                taxPrice: req.body.taxPrice,
+                totalPrice: req.body.totalPrice,
+                user: req.user._id,
+            });
+            const order = await newOrder.save();
+            if (order) {
+                res.status(201).send({ message: 'New Order Created', order });
+            } else {
+                res.status(401).send({ message: 'error order' });
+            }
+        } catch (error) {
+            res.status(500).send({ message: 'error catch' });
+
         }
     }))
 orderRouter.get('/mine', isAuth, expressAsyncHandler(async (req, res) => {
