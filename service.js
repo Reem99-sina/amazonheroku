@@ -9,11 +9,7 @@ import orderRouter from './routers/order.router.js'
 import cors from 'cors'
 dotenv.config()
 const app = express()
-app.use(cors(
-    {
-        origin: ['https://Reem99-sina.github.io/amazon', 'https://localhost:3001']
-    }
-))
+app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.get("/api/keys/paypal", (req, res) => {
