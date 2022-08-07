@@ -6,7 +6,7 @@ const orderRouter = express.Router()
 orderRouter.post('/', isAuth, expressAsyncHandler(async (req, res) => {
     // try {
     console.log(req.body)
-    const Neworder = await new orderModel({
+    const Neworder = await orderModel.create({
         orderItems: req.body.orderItems.map((x) => ({ ...x, product: x._id })),
         shippingAddress: req.body.shippingAddress,
         paymentMethod: req.body.paymentMethod,
@@ -16,8 +16,8 @@ orderRouter.post('/', isAuth, expressAsyncHandler(async (req, res) => {
         totalPrice: req.body.totalPrice,
         user: req.user.id
     })
-    const order = await Neworder.save()
-    console.log(order)
+
+    console.log(Neworder)
     if (order) {
         res.status(201).send({ message: "New order Created", order })
     } else {
