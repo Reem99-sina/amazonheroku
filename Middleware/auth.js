@@ -9,6 +9,7 @@ export const isAuth = async (req, res, next) => {
                 res.status(401).json({ message: "invalid token", })
             } else {
                 req.user = decode;
+                console.log(decode)
                 next()
             }
         })
