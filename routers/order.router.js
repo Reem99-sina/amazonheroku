@@ -6,7 +6,7 @@ const orderRouter = express.Router()
 orderRouter.post('/', isAuth, expressAsyncHandler(async (req, res) => {
     // try {
     console.log(req.body)
-    const Neworder = new orderModel({
+    const Neworder = await new orderModel({
         orderItems: req.body.orderItems.map((x) => ({ ...x, product: x._id })),
         shippingAddress: req.body.shippingAddress,
         paymentMethod: req.body.paymentMethod,
