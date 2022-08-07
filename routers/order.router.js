@@ -22,7 +22,7 @@ orderRouter.post(
             if (order) {
                 res.status(201).send({ message: 'New Order Created', order });
             } else {
-                res.status(401).send({ message: 'error order' });
+                res.status(401).send({ message: 'error order',error:data.error });
             }
         } catch (error) {
             res.status(500).send({ message: 'error catch' });
