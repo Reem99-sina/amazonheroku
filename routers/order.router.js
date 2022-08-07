@@ -4,7 +4,7 @@ import { isAuth } from '../Middleware/auth.js'
 import orderModel from '../models/order.model.js'
 const orderRouter = express.Router();
 orderRouter.post(
-    '/',
+    '/create',
     isAuth,
     expressAsyncHandler(async (req, res) => {
         try {
