@@ -6,7 +6,7 @@ export const isAuth = async (req, res, next) => {
         const token = authorization.split(" ")[1];
         await jwt.verify(token, process.env.jwtTokn, (err, decode) => {
             if (err) {
-                res.status(401).json({ message: "invalid token", })
+                res.status(401).json({ message: "invalid token", err })
             } else {
                 req.user = decode;
                 console.log(decode)
