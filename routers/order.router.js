@@ -3,32 +3,29 @@ import expressAsyncHandler from 'express-async-handler'
 import { isAuth } from '../Middleware/auth.js'
 import orderModel from '../models/order.model.js'
 const orderRouter = express.Router();
-orderRouter.post(
-    '/create',
-    isAuth,
-    async (req, res) => {
-        try {
-            const newOrder = new orderModel({
-                orderItems: req.body.orderItems.map((x) => ({ ...x, product: x._id })),
-                shippingAddress: req.body.shippingAddress,
-                paymentMethod: req.body.paymentMethod,
-                itemsPrice: req.body.itemsPrice,
-                shippingPrice: req.body.shippingPrice,
-                taxPrice: req.body.taxPrice,
-                totalPrice: req.body.totalPrice,
-                user: req.user.id,
-            });
-            const order = await newOrder.save();
-            if (order) {
-                res.status(201).send({ order });
-            } else {
-                res.status(401).send({ message: 'error order', error: order.error });
-            }
-        } catch (error) {
-            res.status(500).send({ message: 'error catch', error });
-
+orderRouter.post('/create', isAuth, async (req, res) => {
+    try {
+        const newOrder = new orderModel({
+            orderItems: req.body.orderItems.map((x) => ({ ...x, product: x._id })),
+            shippingAddress: req.body.shippingAddress,
+            paymentMethod: req.body.paymentMethod,
+            itemsPrice: req.body.itemsPrice,
+            shippingPrice: req.body.shippingPrice,
+            taxPrice: req.body.taxPrice,
+            totalPrice: req.body.totalPrice,
+            user: req.user.id,
+        });
+        const order = await newOrder.save().then(() => { });
+        if (order) {
+            res.status(201).send({ order });
+        } else {
+            res.status(401).send({ message: 'error order', error: order.error });
         }
-    })
+    } catch (error) {
+        res.status(500).send({ message: 'error catch', error });
+
+    }
+})
 orderRouter.get('/mine', isAuth, expressAsyncHandler(async (req, res) => {
     const orders = await orderModel.find({ user: req.user._id })
     if (orders) {
@@ -37,17 +34,14 @@ orderRouter.get('/mine', isAuth, expressAsyncHandler(async (req, res) => {
         res.status(401).send({ message: "no order found" })
     }
 }))
-orderRouter.get(
-    '/:id',
-    isAuth,
-    expressAsyncHandler(async (req, res) => {
-        const order = await orderModel.findById(req.params.id);
-        if (order) {
-            res.send(order);
-        } else {
-            res.status(404).send({ message: 'Order Not Found' });
-        }
-    })
+orderRouter.get('/:id', isAuth, expressAsyncHandler(async (req, res) => {
+    const order = await orderModel.findById(req.params.id);
+    if (order) {
+        res.send(order);
+    } else {
+        res.status(404).send({ message: 'Order Not Found' });
+    }
+})
 );
 orderRouter.put('/:id/pay', isAuth, expressAsyncHandler(async (req, res) => {
     const order = await orderModel.findById(req.params.id)
