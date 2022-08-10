@@ -15,7 +15,7 @@ orderRouter.post('/create', isAuth, async (req, res) => {
             totalPrice: req.body.totalPrice,
             user: req.user.id,
         });
-        const order = await newOrder.save().then(() => { });
+        await newOrder.save().then(() => { });
         if (order) {
             res.status(201).send({ order });
         } else {
