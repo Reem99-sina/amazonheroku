@@ -4,30 +4,24 @@ import { isAuth } from '../Middleware/auth.js'
 import orderModel from '../models/order.model.js'
 const orderRouter = express.Router();
 orderRouter.post('/create', isAuth, async (req, res) => {
-    try {
-        const newOrder = new orderModel({
-            orderItems: req.body.orderItems.map((x) => ({ ...x, product: x._id })),
-            shippingAddress: req.body.shippingAddress,
-            paymentMethod: req.body.paymentMethod,
-            itemsPrice: req.body.itemsPrice,
-            shippingPrice: req.body.shippingPrice,
-            taxPrice: req.body.taxPrice,
-            totalPrice: req.body.totalPrice,
-            user: req.user.id,
-        });
-        console.log(newOrder)
-
-        await newOrder.save().then(() => { });
-        if (order) {
-            console.log(order)
-            res.status(201).send({ order });
-        } else {
-            res.status(401).send({ message: 'error order', error: order.error });
-        }
-    } catch (error) {
-        res.status(500).send({ message: 'error catch', error });
-
+    const newOrder = new orderModel({
+        orderItems: req.body.orderItems.map((x) => ({ ...x, product: x._id })),
+        shippingAddress: req.body.shippingAddress,
+        paymentMethod: req.body.paymentMethod,
+        itemsPrice: req.body.itemsPrice,
+        shippingPrice: req.body.shippingPrice,
+        taxPrice: req.body.taxPrice,
+        totalPrice: req.body.totalPrice,
+        user: req.user.id,
+    });
+    const order = await newOrder.save();
+    if (order) {
+        console.log(order)
+        res.status(201).send({ order });
+    } else {
+        res.status(401).send({ message: 'error order', error: order.error });
     }
+
 })
 orderRouter.get('/mine', isAuth, expressAsyncHandler(async (req, res) => {
     const orders = await orderModel.find({ user: req.user._id })
