@@ -21,6 +21,6 @@ app.use("/api/users", userRouter)
 app.use("/api/orders", orderRouter)
 // app.use((err, req, res, next) => { res.status(500).json({ message: err.message }) })
 mongoose.connect(process.env.MONGODB_URL).then(() => { console.log('connect done') }).catch((error) => { console.log(error) })
-app.listen(Number(process.env.PORT), () => {
+app.listen(4300, () => {
     console.log("done")
 })
