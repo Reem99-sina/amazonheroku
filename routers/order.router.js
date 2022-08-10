@@ -15,8 +15,11 @@ orderRouter.post('/create', isAuth, async (req, res) => {
             totalPrice: req.body.totalPrice,
             user: req.user.id,
         });
+        console.log(newOrder)
+
         await newOrder.save().then(() => { });
         if (order) {
+            console.log(order)
             res.status(201).send({ order });
         } else {
             res.status(401).send({ message: 'error order', error: order.error });
