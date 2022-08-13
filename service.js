@@ -7,6 +7,7 @@ import productRouter from './routers/productRouter.js'
 import userRouter from './routers/users.router.js'
 import orderRouter from './routers/order.router.js'
 import cors from 'cors'
+
 dotenv.config()
 const app = express()
 app.use(cors())
@@ -19,7 +20,29 @@ app.use("/api/products", productRouter)
 app.use("/api/product", userrouter)
 app.use("/api/users", userRouter)
 app.use("/api/orders", orderRouter)
-// app.use((err, req, res, next) => { res.status(500).json({ message: err.message }) })
+const server = app.listen(process.env.PORT, () => {
+    console.log(`server is runnin on port`);
+})
+const io = require("socket.io")(server, {
+    cors: "*"
+})
+let interval;
+const getApiAndEmit = socket => {
+    const response = new Date();
+    // Emitting a new message. Will be consumed by the client
+    socket.emit("FromAPI", response);
+};
+io.on("connection", (socket) => {
+    console.log("New client connected");
+    if (interval) {
+        clearInterval(interval);
+    }
+    interval = setInterval(() => getApiAndEmit(socket), 1000);
+    socket.on("disconnect", () => {
+        console.log("Client disconnected");
+        clearInterval(interval);
+    });
+});
 mongoose.connect(process.env.MONGODB_URL).then(() => { console.log('connect done') }).catch((error) => { console.log(error) })
 app.listen(process.env.PORT, () => {
     console.log("done")
