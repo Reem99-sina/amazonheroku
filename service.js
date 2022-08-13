@@ -1,12 +1,12 @@
-import express from 'express'
-import data from './data.js'
-import dotenv from 'dotenv'
-import mongoose from 'mongoose'
-import userrouter from './routers/sendRouter.js'
-import productRouter from './routers/productRouter.js'
-import userRouter from './routers/users.router.js'
-import orderRouter from './routers/order.router.js'
-import cors from 'cors'
+const express = require('express')
+const data = require('./data.js')
+const dotenv = require('dotenv')
+const mongoose = require('mongoose')
+const userrouter = require('./routers/sendRouter.js')
+const productRouter = require('./routers/productRouter.js')
+const userRouter = require('./routers/users.router.js')
+const orderRouter = require('./routers/order.router.js')
+const cors = require('cors')
 
 dotenv.config()
 const app = express()
@@ -32,7 +32,7 @@ io.on("connection", (socket) => {
 
     socket.on("disconnect", () => {
         console.log("Client disconnected");
-        
+
     });
 });
 mongoose.connect(process.env.MONGODB_URL).then(() => { console.log('connect done') }).catch((error) => { console.log(error) })

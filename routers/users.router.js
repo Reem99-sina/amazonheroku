@@ -1,9 +1,9 @@
-import express from 'express'
-import bcrypt from 'bcrypt'
-import expressAsyncHandler from 'express-async-handler'
-import jwt from 'jsonwebtoken'
-import usersmodel from '../models/user.model.js'
-import { isAuth } from '../Middleware/auth.js'
+const express = require('express')
+const bcrypt = require('bcrypt')
+const expressAsyncHandler = require('express-async-handler')
+const jwt = require('jsonwebtoken')
+const usersmodel = require('../models/user.model.js')
+const { isAuth } = require('../Middleware/auth.js')
 const userRouter = express.Router()
 userRouter.post('/signin', expressAsyncHandler(async (req, res) => {
     const user = await usersmodel.findOne({ email: req.body.email })

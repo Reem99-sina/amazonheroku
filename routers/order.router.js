@@ -1,7 +1,7 @@
-import express from 'express'
-import expressAsyncHandler from 'express-async-handler'
-import { isAuth } from '../Middleware/auth.js'
-import orderModel from '../models/order.model.js'
+const express = require('express')
+const expressAsyncHandler = require('express-async-handler')
+const { isAuth } = require('../Middleware/auth.js')
+const orderModel = require('../models/order.model.js')
 const orderRouter = express.Router();
 orderRouter.post('/create', isAuth, async (req, res) => {
     const newOrder = new orderModel({

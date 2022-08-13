@@ -1,6 +1,6 @@
-import express from 'express'
-import productsmodel from '../models/products.js'
-import usersmodel from '../models/user.model.js'
+const express = require('express')
+const productsmodel = require('../models/products.js')
+const usersmodel = require('../models/user.model.js')
 const productRouter = express.Router()
 productRouter.get("/", async (req, res) => {
     const product = await productsmodel.find()

@@ -1,7 +1,7 @@
-import express from 'express'
-import productsmodel from '../models/products.js'
-import data from '../data.js'
-import usersmodel from '../models/user.model.js'
+const express =require('express')
+const productsmodel =require('../models/products.js')
+const data =require('../data.js')
+const usersmodel =require('../models/user.model.js')
 const userrouter = express.Router()
 userrouter.get("/", async (req, res) => {
     await productsmodel.remove({})
