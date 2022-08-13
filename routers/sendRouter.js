@@ -10,4 +10,4 @@ userrouter.get("/", async (req, res) => {
     const createdUser = await usersmodel.insertMany(data.users)
     res.json({ createdUser, createdProduct })
 })
-export default userrouter
+module.exports= userrouter

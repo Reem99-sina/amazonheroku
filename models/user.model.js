@@ -11,4 +11,4 @@ const userschema = new mongoose.Schema({
 //  this.password=await bcrypt.
 // })
 const usersmodel = mongoose.model('user', userschema)
-export default usersmodel 
+module.exports = usersmodel 

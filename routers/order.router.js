@@ -59,4 +59,4 @@ orderRouter.put('/:id/pay', isAuth, expressAsyncHandler(async (req, res) => {
 
     }
 }))
-export default orderRouter
+module.exports = orderRouter

@@ -55,4 +55,4 @@ userRouter.put('/profile', isAuth, expressAsyncHandler(async (req, res) => {
 
     }
 }))
-export default userRouter
+module.exports = userRouter
