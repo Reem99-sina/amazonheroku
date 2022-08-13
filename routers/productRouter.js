@@ -23,4 +23,4 @@ productRouter.get("/:id", async (req, res) => {
         res.status(404).json({ message: "product not found" })
     }
 })
-module.exports= productRouter
+module.exports = productRouter
