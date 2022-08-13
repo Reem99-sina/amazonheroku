@@ -27,7 +27,7 @@ const io = require("socket.io")(server, {
     cors: "*"
 })
 
-io.on("connection", (socket) => {
+io.emit("connection", (socket) => {
     console.log("New client connected");
 
     socket.on("disconnect", () => {
