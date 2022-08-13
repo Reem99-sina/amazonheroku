@@ -26,21 +26,13 @@ const server = app.listen(process.env.PORT, () => {
 const io = require("socket.io")(server, {
     cors: "*"
 })
-let interval;
-const getApiAndEmit = socket => {
-    const response = new Date();
-    // Emitting a new message. Will be consumed by the client
-    socket.emit("FromAPI", response);
-};
+
 io.on("connection", (socket) => {
     console.log("New client connected");
-    if (interval) {
-        clearInterval(interval);
-    }
-    interval = setInterval(() => getApiAndEmit(socket), 1000);
+
     socket.on("disconnect", () => {
         console.log("Client disconnected");
-        clearInterval(interval);
+        
     });
 });
 mongoose.connect(process.env.MONGODB_URL).then(() => { console.log('connect done') }).catch((error) => { console.log(error) })
