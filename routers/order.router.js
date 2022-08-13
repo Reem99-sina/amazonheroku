@@ -3,7 +3,7 @@ const expressAsyncHandler = require('express-async-handler')
 const { isAuth } = require('../Middleware/auth.js')
 const orderModel = require('../models/order.model.js')
 const orderRouter = express.Router();
-orderRouter.post('/create', isAuth, async (req, res) => {
+orderRouter.post('/create', isAuth, async function (req, res) {
     const newOrder = new orderModel({
         orderItems: req.body.orderItems.map((x) => ({ ...x, product: x._id })),
         shippingAddress: req.body.shippingAddress,
@@ -23,7 +23,7 @@ orderRouter.post('/create', isAuth, async (req, res) => {
     }
 
 })
-orderRouter.get('/mine', isAuth, async (req, res) => {
+orderRouter.get('/mine', isAuth, async function (req, res) {
     const orders = await orderModel.find({ user: req.user._id })
     if (orders) {
         res.status(201).send({ message: "New order Created", orders })
@@ -31,7 +31,7 @@ orderRouter.get('/mine', isAuth, async (req, res) => {
         res.status(401).send({ message: "no order found" })
     }
 })
-orderRouter.get('/:id', isAuth, async (req, res) => {
+orderRouter.get('/:id', isAuth, async function (req, res) {
     const order = await orderModel.findById(req.params.id);
     if (order) {
         res.send(order);

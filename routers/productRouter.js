@@ -2,12 +2,12 @@ const express = require('express')
 const productsmodel = require('../models/products.js')
 const usersmodel = require('../models/user.model.js')
 const productRouter = express.Router()
-productRouter.get("/", async (req, res) => {
+productRouter.get("/", async function (req, res) {
     const product = await productsmodel.find()
     const users = await usersmodel.find()
     res.json({ product, users })
 })
-productRouter.get("/slug/:slug", async (req, res) => {
+productRouter.get("/slug/:slug", async function (req, res) {
     const product = await productsmodel.findOne({ slug: req.params.slug })
     if (product) {
         res.json(product)
@@ -15,7 +15,7 @@ productRouter.get("/slug/:slug", async (req, res) => {
         res.status(404).json({ message: "product not found" })
     }
 })
-productRouter.get("/:id", async (req, res) => {
+productRouter.get("/:id", async function (req, res) {
     const product = await productsmodel.findById(req.params.id)
     if (product) {
         res.json(product)

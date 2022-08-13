@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken')
 const usersmodel = require('../models/user.model.js')
 const { isAuth } = require('../Middleware/auth.js')
 const userRouter = express.Router()
-userRouter.post('/signin', async (req, res) => {
+userRouter.post('/signin', async function (req, res) {
     const user = await usersmodel.findOne({ email: req.body.email })
     if (user) {
         const match = await bcrypt.compare(req.body.password, user.password)
@@ -18,7 +18,7 @@ userRouter.post('/signin', async (req, res) => {
         res.json({ message: "not defined user" })
     }
 })
-userRouter.post('/signup', async (req, res) => {
+userRouter.post('/signup', async function (req, res) {
     const searchuser = await usersmodel.findOne({ email: req.body.email })
     if (searchuser) {
         console.log(searchuser)
@@ -37,7 +37,7 @@ userRouter.post('/signup', async (req, res) => {
     }
 
 })
-userRouter.put('/profile', isAuth, async (req, res) => {
+userRouter.put('/profile', isAuth, async function (req, res) {
     const user = await usersmodel.findById(req.user.id)
     if (user) {
         user.userName = req.body.userName || user.userName
