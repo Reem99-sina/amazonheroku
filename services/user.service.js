@@ -3,9 +3,7 @@ const productsmodel = require("../models/products")
 const usersmodel = require("../models/user.model")
 
 const sendUser = async (req, res) => {
-    await productsmodel.remove({})
     const createdProduct = await productsmodel.insertMany(data.products)
-    await usersmodel.remove({})
     const createdUser = await usersmodel.insertMany(data.users)
     res.json({ createdUser, createdProduct })
 }
