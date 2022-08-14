@@ -19,7 +19,7 @@ app.use("/api/products", productRouter)
 app.use("/api/product", userrouter)
 app.use("/api/users", userRouter)
 app.use("/api/orders", orderRouter)
-const server = app.listen(process.env.PORT || 3300, () => {
+const server = app.listen(process.env.PORT || 3, () => {
     console.log(`server is runnin on port`);
 })
 const io = require("socket.io")(server, {
