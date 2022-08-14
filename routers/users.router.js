@@ -8,4 +8,4 @@ const userRouter = express.Router()
 userRouter.post('/signin', userFunction.signin)
 userRouter.post('/signup', userFunction.signup)
 userRouter.put('/profile', isAuth, userFunction.profileUser)
-module.exports = userRouter
+module.exports = {userRouter}

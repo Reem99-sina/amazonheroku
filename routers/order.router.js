@@ -9,4 +9,4 @@ orderRouter.get('/mine', isAuth, orderFunction.allOrder)
 orderRouter.get('/:id', isAuth, orderFunction.idOrder
 );
 orderRouter.put('/:id/pay', isAuth, orderFunction.payorder)
-module.exports = orderRouter
+module.exports = { orderRouter }
