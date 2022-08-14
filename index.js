@@ -35,6 +35,6 @@ io.emit("connection", (socket) => {
     });
 });
 mongoose.connect(process.env.MONGODB_URL).then(() => { console.log('connect done') }).catch((error) => { console.log(error) })
-app.listen(process.env.PORT, () => {
+app.listen(process.env.PORT || 34201, () => {
     console.log("done")
 })
