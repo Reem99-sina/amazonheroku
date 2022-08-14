@@ -7,6 +7,7 @@ const productRouter = require('./routers/productRouter.js')
 const userRouter = require('./routers/users.router.js')
 const orderRouter = require('./routers/order.router.js')
 const cors = require('cors')
+const { connectdb } = require('./connectdb.js')
 dotenv.config()
 const app = express()
 app.use(cors(
@@ -36,7 +37,7 @@ io.emit("connection", (socket) => {
 
     });
 });
-mongoose.connect(process.env.MONGODB_URL).then(() => { console.log('connect done') }).catch((error) => { console.log(error) })
+connectdb()
 app.listen(process.env.PORT || 34201, () => {
     console.log("done")
 })
