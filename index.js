@@ -9,7 +9,9 @@ const orderRouter = require('./routers/order.router.js')
 const cors = require('cors')
 dotenv.config()
 const app = express()
-app.use(cors())
+app.use(cors(
+    { origin: "http://localhost:3000" }
+))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.get("/api/keys/paypal", function (req, res) {
