@@ -1,26 +1,38 @@
 const jwt = require("jsonwebtoken")
+const usersmodel = require("../models/user.model")
 
-const isAuth = async (req, res, next) => {
-    try {
-        const authorization = req.headers.authorization;
-        if (authorization) {
-            const token = authorization.split(" ")[1];
-            await jwt.verify(token, process.env.jwtTokn, (err, decode) => {
-                if (err) {
-                    res.status(401).json({ message: "invalid token", err })
+module.exports.isAuth = () => {
+    return async(req, res, next) => {
+        try {
+            const authorization = req.headers['authorization']
+            if (!authorization.startsWith(`${process.env.Bearer} `)) {
+                res.status(400).json({ message: "in valid header token" })
+            } else {
+                const token = headerToken.split(" ")[1]
+                if (!token) {
+                    res.status(400).json({ message: "no token there" })
                 } else {
-                    req.user = decode;
-                    console.log(decode)
-                    next()
+                    const decoded = jwt.verify(token, process.env.jwtTokn)
+                    if (!decoded) {
+                        res.status(400).json({ message: "in valid token" })
+                    } else {
+                        const user = await usersmodel.findById(decoded.id)
+                        if (!user) {
+                            res.status(400).json({ message: "no user fonud" })
+                        } else {
+                            if (user) {
+                                req.user = user
+                                next()
+                            } else {
+                                res.status(400).json({ message: "no role user" })
+                            }
+                        }
+                    }
                 }
-            })
-        } else {
-            res.status(401).json({ message: "No token " })
+            }
+        } catch (error) {
+            res.status(500).json({ message: "error catch ", error })
 
         }
-    } catch (error) {
-        res.status(500).json({ message: "error catch ", error })
-
     }
 }
-module.exports = isAuth

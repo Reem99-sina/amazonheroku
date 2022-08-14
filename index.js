@@ -1,7 +1,6 @@
 const express = require('express')
 const data = require('./data.js')
 const dotenv = require('dotenv')
-const mongoose = require('mongoose')
 const userrouter = require('./routers/sendRouter.js')
 const productRouter = require('./routers/productRouter.js')
 const userRouter = require('./routers/users.router.js')
@@ -27,12 +26,10 @@ const io = require("socket.io")(server, {
     cors: "*"
 })
 
-io.emit("connection", (socket) => {
+io.on("connection", (socket) => {
     console.log("New client connected");
-
     socket.on("disconnect", () => {
         console.log("Client disconnected");
-
     });
 });
 connectdb()

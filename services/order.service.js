@@ -1,6 +1,6 @@
 const orderModel = require("../models/order.model");
 
-const createOrder = async function (req, res) {
+const createOrder = async (req, res) => {
     const newOrder = new orderModel({
         orderItems: req.body.orderItems.map((x) => ({ ...x, product: x._id })),
         shippingAddress: req.body.shippingAddress,
@@ -20,7 +20,7 @@ const createOrder = async function (req, res) {
     }
 
 }
-const allOrder = async function (req, res) {
+const allOrder = async (req, res) => {
     const orders = await orderModel.find({ user: req.user._id })
     if (orders) {
         res.status(201).send({ message: "New order Created", orders })
@@ -28,7 +28,7 @@ const allOrder = async function (req, res) {
         res.status(401).send({ message: "no order found" })
     }
 }
-const idOrder = async function (req, res) {
+const idOrder = async (req, res) => {
     const order = await orderModel.findById(req.params.id);
     if (order) {
         res.send(order);
@@ -36,7 +36,7 @@ const idOrder = async function (req, res) {
         res.status(404).send({ message: 'Order Not Found' });
     }
 }
-const payorder = async function (req, res) {
+const payorder = async (req, res) => {
     const order = await orderModel.findById(req.params.id)
     if (order) {
         order.isPaid = true;

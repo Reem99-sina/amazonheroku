@@ -1,11 +1,11 @@
 const express = require('express')
-const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
-const usersmodel = require('../models/user.model.js')
+// const bcrypt = require('bcrypt')
+// const jwt = require('jsonwebtoken')
+// const usersmodel = require('../models/user.model.js')
 const { isAuth } = require('../Middleware/auth.js')
 const userFunction = require("../services/user.service.js")
 const userRouter = express.Router()
 userRouter.post('/signin', userFunction.signin)
 userRouter.post('/signup', userFunction.signup)
 userRouter.put('/profile', isAuth, userFunction.profileUser)
-module.exports = {userRouter}
+module.exports = { userRouter }
