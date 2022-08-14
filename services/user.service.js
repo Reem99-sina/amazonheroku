@@ -1,13 +1,15 @@
+const { data } = require("../data")
+const productsmodel = require("../models/products")
 const usersmodel = require("../models/user.model")
 
-const sendUser = async  (req, res) =>{
+const sendUser = async (req, res) => {
     await productsmodel.remove({})
     const createdProduct = await productsmodel.insertMany(data.products)
     await usersmodel.remove({})
     const createdUser = await usersmodel.insertMany(data.users)
     res.json({ createdUser, createdProduct })
 }
-const signin = async  (req, res) =>{
+const signin = async (req, res) => {
     const user = await usersmodel.findOne({ email: req.body.email })
     if (user) {
         const match = await bcrypt.compare(req.body.password, user.password)
@@ -21,7 +23,7 @@ const signin = async  (req, res) =>{
         res.json({ message: "not defined user" })
     }
 }
-const signup = async  (req, res) =>{
+const signup = async (req, res) => {
     const searchuser = await usersmodel.findOne({ email: req.body.email })
     if (searchuser) {
         console.log(searchuser)
@@ -40,7 +42,7 @@ const signup = async  (req, res) =>{
     }
 
 }
-const profileUser = async  (req, res) =>{
+const profileUser = async (req, res) => {
     const user = await usersmodel.findById(req.user.id)
     if (user) {
         user.userName = req.body.userName || user.userName
