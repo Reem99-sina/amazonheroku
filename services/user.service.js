@@ -1,6 +1,6 @@
-const { data } = require("../data")
-const productsmodel = require("../models/products")
-const usersmodel = require("../models/user.model")
+const { data } = require("../data.js")
+const productsmodel = require("../models/products.js")
+const usersmodel = require("../models/user.model.js")
 
 const sendUser = async (req, res) => {
     const createdProduct = await productsmodel.insertMany(data.products)
