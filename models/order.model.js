@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const orderSchema = new mongoose.Schema({
+const orderSchema =  mongoose.Schema({
     orderItems: [
         {
             slug: { type: String, required: true },
