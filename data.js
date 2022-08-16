@@ -20,7 +20,7 @@ const data = {
             name: 'Nike Slim shirt',
             slug: 'nike-slim-shirt',
             category: 'Shirts',
-            image: '/image/p1.jpg', // 679px × 829px
+            image: '/image/p1.jpg',
             price: 120,
             countInStock: 10,
             brand: 'Nike',
