@@ -3,8 +3,8 @@ const usersmodel = require("../models/user.model.js")
 
 const getProduct = async (req, res) => {
     await productsmodel.remove()
-    const product = await productsmodel.find()
-    const users = await usersmodel.find()
+    const product = await productsmodel.find({})
+    const users = await usersmodel.find({})
     res.json({ product, users })
 }
 const slugProduct = async (req, res) => {
