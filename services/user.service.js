@@ -1,4 +1,6 @@
 const { data } = require("../data.js")
+const bcrypt = require("bcrypt")
+const jwt = require("jsonwebtoken")
 const productsmodel = require("../models/products.js")
 const usersmodel = require("../models/user.model.js")
 

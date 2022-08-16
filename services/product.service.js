@@ -1,4 +1,5 @@
 const productsmodel = require("../models/products.js")
+const usersmodel = require("../models/user.model.js")
 
 const getProduct = async (req, res) => {
     const product = await productsmodel.find()
