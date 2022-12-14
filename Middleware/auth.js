@@ -2,13 +2,13 @@ const jwt = require("jsonwebtoken")
 const usersmodel = require("../models/user.model.js")
 
 module.exports.isAuth = () => {
-    return async(req, res, next) => {
+    return async (req, res, next) => {
         try {
             const authorization = req.headers['authorization']
             if (!authorization.startsWith(`${process.env.Bearer} `)) {
                 res.status(400).json({ message: "in valid header token" })
             } else {
-                const token = headerToken.split(" ")[1]
+                const token = authorization.split(" ")[1]
                 if (!token) {
                     res.status(400).json({ message: "no token there" })
                 } else {

@@ -1,4 +1,5 @@
 {
+  "homepage": "http://Reem99-sina.github.io/api/v1/",
   "name": "back-end",
   "type": "commonjs",
   "version": "1.0.0",
@@ -11,7 +12,9 @@
   "scripts": {
     "start": "node app.js",
     "lint": "eslint app.js",
-    "prettier": "prettier --config .prettierrc.json app.js --write"
+    "prettier": "prettier --config .prettierrc.json app.js --write",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "keywords": [],
   "author": "",
